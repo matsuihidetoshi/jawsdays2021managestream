@@ -8,6 +8,7 @@ export const getStream = /* GraphQL */ `
       url
       title
       description
+      active
       createdAt
       updatedAt
     }
@@ -25,6 +26,7 @@ export const listStreams = /* GraphQL */ `
         url
         title
         description
+        active
         createdAt
         updatedAt
       }

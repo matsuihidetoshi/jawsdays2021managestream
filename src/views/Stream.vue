@@ -2,19 +2,36 @@
   <div class="stream">
     <v-row>
       <v-col
-        v-for="(mock, index) in mocks"
+        v-for="(stream, index) in streams"
         :key="index"
         cols="12"
         md="6"
       >
         <v-card
-          class="breakline"
+          class="
+            pa-3
+            breakline
+          "
         >
-          {{ mock.title }}<br>
-          {{ mock.url }}<br>
-          {{ mock.description }}
+          <v-form>
+            <v-text-field
+              v-model="stream.title"
+              label="Title"
+            />
+            {{ stream.id}}<br>
+            {{ stream.title }}<br>
+            {{ stream.url }}<br>
+            {{ stream.description }}<br>
+            {{ stream.active }}<br>
+            {{ stream.createdAt }}
+          </v-form>
         </v-card>
       </v-col>
+      <v-btn
+        @click="createStream()"
+      >
+        create
+      </v-btn>
     </v-row>
   </div>
 </template>
@@ -32,6 +49,7 @@ export default {
       url: "",
       title: "",
       description: "",
+      active: false,
       stream: null,
       streams: [],
       owner: "",
@@ -40,22 +58,26 @@ export default {
         {
           url: "test1.example.com",
           title: "test session1",
-          description: "this is \n test description1"
+          description: "this is \n test description1",
+          active: false
         },
         {
           url: "test2.example.com",
           title: "test session2",
-          description: "this is \n test description2"
+          description: "this is \n test description2",
+          active: false
         },
         {
           url: "test3.example.com",
           title: "test session3",
-          description: "this is \n test description3"
+          description: "this is \n test description3",
+          active: false
         },
         {
           url: "test3.example.com",
           title: "test session3",
-          description: "this is \n test description3"
+          description: "this is \n test description3",
+          active: false
         }
       ]
     }
@@ -66,9 +88,15 @@ export default {
   },
   methods: {
     createStream: async function () {
-      const stream = {url: this.url, title: this.title, description: this.description}
+      const stream = {
+        url: this.url,
+        title: this.title,
+        description: this.description,
+        active: this.active
+      }
       try {
         this.url = this.title = this.description = ""
+        this.active = false
         await API.graphql(graphqlOperation(createStream, {input: stream}))
       } catch (error) {
         error
@@ -78,7 +106,7 @@ export default {
       let streams = await API.graphql(graphqlOperation(
         listStreams, {limit: this.limit}
       ))
-      this.streams = _.orderBy(streams.data.listStreams.items, 'updatedAt', 'desc').slice(0, 100)
+      this.streams = _.orderBy(streams.data.listStreams.items, 'createdAt', 'asc')
       
       API.graphql(
         graphqlOperation(onCreateStream, {limit: this.limit, owner: this.owner})
@@ -86,7 +114,7 @@ export default {
         next: (eventData) => {
           const stream = eventData.value.data.onCreateStream
           const streams = [...this.streams, stream]
-          this.streams = _.orderBy(streams, 'id', 'asc').slice(0, 100)
+          this.streams = _.orderBy(streams, 'createdAt', 'asc')
         }
       })
     },

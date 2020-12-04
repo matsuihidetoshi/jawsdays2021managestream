@@ -3,4 +3,5 @@ type Stream @model @auth(rules: [{ allow: private }]) {
   url: String
   title: String
   description: String
+  active: Boolean
 }

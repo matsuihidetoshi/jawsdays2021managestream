@@ -8,6 +8,7 @@ export const onCreateStream = /* GraphQL */ `
       url
       title
       description
+      active
       createdAt
       updatedAt
     }
@@ -20,6 +21,7 @@ export const onUpdateStream = /* GraphQL */ `
       url
       title
       description
+      active
       createdAt
       updatedAt
     }
@@ -32,6 +34,7 @@ export const onDeleteStream = /* GraphQL */ `
       url
       title
       description
+      active
       createdAt
       updatedAt
     }
