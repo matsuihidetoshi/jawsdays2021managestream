@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "jawsdays2021managest",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authjawsdays2021managestf6532de2",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
