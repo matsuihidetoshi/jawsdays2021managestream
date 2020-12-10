@@ -38,15 +38,33 @@
     </v-app-bar>
 
     <v-main>
-      <router-link to="/">Private Note</router-link> |
-      <router-link to="/signin">Sign In</router-link> |
-      <router-link to="/about">About</router-link>
-      <router-view/>
+      <v-container>
+        <v-row>
+          <v-col
+            v-for="(link, index) in links"
+            :key="index"
+            cols="12"
+            md="4"
+            sm="6"
+          >
+            <v-btn
+              block
+              color="primary"
+              :to="link.to"
+            >
+              {{ link.text }}
+            </v-btn>
+          </v-col>
+        </v-row>
+        <router-view/>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import store from '@/store/index.js'
+
 export default {
   name: 'App',
 
@@ -54,7 +72,21 @@ export default {
   },
 
   data: () => ({
-    //
-  }),
+    store,
+    links: [
+      {
+        to: '/',
+        text: 'Stream'
+      },
+      {
+        to: '/signin',
+        text: 'Sign in / out'
+      },
+      {
+        to: '/about',
+        text: 'About'
+      }
+    ]
+  })
 };
 </script>

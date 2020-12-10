@@ -18,26 +18,72 @@
               v-model="stream.title"
               label="Title"
             />
-            {{ stream.id}}<br>
-            {{ stream.title }}<br>
-            {{ stream.url }}<br>
-            {{ stream.description }}<br>
-            {{ stream.active }}<br>
-            {{ stream.createdAt }}
+
+            <v-text-field
+              v-model="stream.url"
+              label="Endpoint URL"
+            />
+
+            <v-textarea
+              v-model="stream.description"
+              label="Description"
+            />
+
+            <v-checkbox
+              v-model="stream.active"
+              label="Active"
+            />
+
+            <v-row>
+              <v-spacer />
+
+              <v-btn
+                color="primary"
+                @click="updateStream(index)"
+                class="mr-2"
+              >
+                update
+              </v-btn>
+            </v-row>
           </v-form>
         </v-card>
       </v-col>
-      <v-btn
-        @click="createStream()"
-      >
-        create
-      </v-btn>
     </v-row>
+
+    <v-overlay
+      :value="loading"
+    >
+      <v-progress-circular
+        indeterminate
+        :size="80"
+        :width="10"
+      />
+    </v-overlay>
+
+    <v-snackbar
+      v-model="snackbar"
+      color="blue-grey"
+      top
+    >
+      {{ message }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="#FF9900"
+          class="
+            font-weight-bold
+          "
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          閉じる
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <script>
 import { API, graphqlOperation} from "aws-amplify"
-import { createStream } from "../graphql/mutations"
+import { createStream, updateStream } from "../graphql/mutations"
 import { listStreams } from "../graphql/queries"
 import { getStream } from "../graphql/queries"
 import { onCreateStream } from "../graphql/subscriptions"
@@ -54,6 +100,9 @@ export default {
       streams: [],
       owner: "",
       limit: 2 ** 31 - 1,
+      loading: false,
+      snackbar: false,
+      message: null,
       mocks: [
         {
           url: "test1.example.com",
@@ -100,6 +149,32 @@ export default {
         await API.graphql(graphqlOperation(createStream, {input: stream}))
       } catch (error) {
         error
+      }
+    },
+    updateStream: async function (index) {
+      this.loading = true
+      const stream = {
+        id: this.streams[index].id,
+        url: this.streams[index].url,
+        title: this.streams[index].title,
+        description: this.streams[index].description,
+        active: this.streams[index].active
+      }
+      try {
+        await API.graphql(
+          graphqlOperation(
+            updateStream,
+            {input: stream}
+          )
+        )
+        this.loading = false
+        this.message = "Updated"
+        this.snackbar = true
+      } catch (error) {
+        error
+        this.loading = false
+        this.message = "Update failed"
+        this.snackbar = true
       }
     },
     displayStreams: async function () {
