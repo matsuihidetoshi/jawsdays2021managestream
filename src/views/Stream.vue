@@ -75,7 +75,7 @@
           v-bind="attrs"
           @click="snackbar = false"
         >
-          閉じる
+          close
         </v-btn>
       </template>
     </v-snackbar>
