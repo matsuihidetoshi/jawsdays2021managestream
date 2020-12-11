@@ -88,6 +88,7 @@ import { listStreams } from "../graphql/queries"
 import { getStream } from "../graphql/queries"
 import { onCreateStream } from "../graphql/subscriptions"
 import _ from 'lodash'
+
 export default {
   name: 'Stream',
   data () {
