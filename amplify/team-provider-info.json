@@ -1,15 +1,15 @@
 {
   "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-jawsdays2021managest-main-180509-authRole",
-      "UnauthRoleArn": "arn:aws:iam::846058660752:role/amplify-jawsdays2021managest-main-180509-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::846058660752:role/amplify-jawsdays2021managest-main-180509-authRole",
+      "AuthRoleName": "amplify-jawsdays2021managest-main-233128-authRole",
+      "UnauthRoleArn": "arn:aws:iam::657378360281:role/amplify-jawsdays2021managest-main-233128-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::657378360281:role/amplify-jawsdays2021managest-main-233128-authRole",
       "Region": "ap-northeast-1",
-      "DeploymentBucketName": "amplify-jawsdays2021managest-main-180509-deployment",
-      "UnauthRoleName": "amplify-jawsdays2021managest-main-180509-unauthRole",
-      "StackName": "amplify-jawsdays2021managest-main-180509",
-      "StackId": "arn:aws:cloudformation:ap-northeast-1:846058660752:stack/amplify-jawsdays2021managest-main-180509/de9f18f0-360f-11eb-81f5-0eacaab34bb8",
-      "AmplifyAppId": "d2hyvy3myald3h"
+      "DeploymentBucketName": "amplify-jawsdays2021managest-main-233128-deployment",
+      "UnauthRoleName": "amplify-jawsdays2021managest-main-233128-unauthRole",
+      "StackName": "amplify-jawsdays2021managest-main-233128",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:657378360281:stack/amplify-jawsdays2021managest-main-233128/88cbaa70-5350-11eb-8de0-0ee19a506ce3",
+      "AmplifyAppId": "d36b23ejy5e775"
     },
     "categories": {
       "auth": {
