@@ -1,5 +1,71 @@
 <template>
   <div class="stream">
+    <v-btn
+      color="success"
+      @click="newStreamForm = true"
+    >
+      new stream
+    </v-btn>
+
+    <v-dialog
+      v-model="newStreamForm"
+    >
+      <v-card>
+        <v-card-title
+          class="
+            headline
+            grey
+            lighten-2
+          "
+        >
+          Create new stream
+        </v-card-title>
+
+        <v-card-text>
+          <v-form>
+            <v-text-field
+              v-model="title"
+              label="Title"
+            />
+
+            <v-text-field
+              v-model="url"
+              label="Endpoint URL"
+            />
+
+            <v-textarea
+              v-model="description"
+              label="Description"
+            />
+
+            <v-checkbox
+              v-model="active"
+              label="Active"
+            />
+          </v-form>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="warning"
+            @click="newStreamForm = false"
+          >
+            cancel
+          </v-btn>
+
+          <v-btn
+            color="success"
+            @click="newStreamForm = false, createStream()"
+          >
+            create
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-row>
       <v-col
         v-for="(stream, index) in streams"
@@ -36,6 +102,47 @@
 
             <v-row>
               <v-spacer />
+
+              <v-btn
+                color="error"
+                @click="deleteConfirmation = true, deleteIndex = index"
+                class="mr-2"
+              >
+                delete
+              </v-btn>
+
+              <v-dialog
+                v-model="deleteConfirmation"
+              >
+                <v-card>
+                  <v-card-title>
+                    Confirmation: Delete
+                  </v-card-title>
+
+                  <v-card-text>
+                    Are you sure?
+                  </v-card-text>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="warning"
+                      @click="deleteConfirmation = false"
+                    >
+                      cancel
+                    </v-btn>
+
+                    <v-btn
+                      color="error"
+                      @click="deleteConfirmation = false, deleteStream(deleteIndex)"
+                    >
+                      delete
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
 
               <v-btn
                 color="primary"
@@ -83,7 +190,7 @@
 </template>
 <script>
 import { API, graphqlOperation} from "aws-amplify"
-import { createStream, updateStream } from "../graphql/mutations"
+import { createStream, updateStream, deleteStream } from "../graphql/mutations"
 import { listStreams } from "../graphql/queries"
 import { getStream } from "../graphql/queries"
 import { onCreateStream } from "../graphql/subscriptions"
@@ -101,9 +208,12 @@ export default {
       streams: [],
       owner: "",
       limit: 2 ** 31 - 1,
+      newStreamForm: false,
+      deleteConfirmation: false,
+      deleteIndex: null,
       loading: false,
       snackbar: false,
-      message: null,
+      message: null/* ,
       mocks: [
         {
           url: "test1.example.com",
@@ -129,7 +239,7 @@ export default {
           description: "this is \n test description3",
           active: false
         }
-      ]
+      ] */
     }
   },
   mounted: function () {
@@ -138,6 +248,7 @@ export default {
   },
   methods: {
     createStream: async function () {
+      this.loading = true
       const stream = {
         url: this.url,
         title: this.title,
@@ -148,8 +259,14 @@ export default {
         this.url = this.title = this.description = ""
         this.active = false
         await API.graphql(graphqlOperation(createStream, {input: stream}))
+        this.loading = false
+        this.message = "Created"
+        this.snackbar = true
       } catch (error) {
         error
+        this.loading = false
+        this.message = "Create failed"
+        this.snackbar = true
       }
     },
     updateStream: async function (index) {
@@ -177,6 +294,29 @@ export default {
         this.message = "Update failed"
         this.snackbar = true
       }
+    },
+    deleteStream: async function (index) {
+      this.loading = true
+      const stream = {
+        id: this.streams[index].id
+      }
+      try {
+        await API.graphql(
+          graphqlOperation(
+            deleteStream,
+            {input: stream}
+          )
+        )
+        this.loading = false
+        this.message = "Deleted"
+        this.snackbar = true
+      } catch (error) {
+        error
+        this.loading = false
+        this.message = "Delete failed"
+        this.snackbar = true
+      }
+      this.displayStreams()
     },
     displayStreams: async function () {
       let streams = await API.graphql(graphqlOperation(
