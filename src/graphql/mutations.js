@@ -9,6 +9,7 @@ export const createStream = /* GraphQL */ `
     createStream(input: $input, condition: $condition) {
       id
       url
+      slug
       title
       description
       active
@@ -25,6 +26,7 @@ export const updateStream = /* GraphQL */ `
     updateStream(input: $input, condition: $condition) {
       id
       url
+      slug
       title
       description
       active
@@ -41,6 +43,7 @@ export const deleteStream = /* GraphQL */ `
     deleteStream(input: $input, condition: $condition) {
       id
       url
+      slug
       title
       description
       active

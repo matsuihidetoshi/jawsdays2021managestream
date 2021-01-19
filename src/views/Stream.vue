@@ -33,6 +33,11 @@
               label="Endpoint URL"
             />
 
+            <v-text-field
+              v-model="slug"
+              label="Slug"
+            />
+
             <v-textarea
               v-model="description"
               label="Description"
@@ -88,6 +93,11 @@
             <v-text-field
               v-model="stream.url"
               label="Endpoint URL"
+            />
+
+            <v-text-field
+              v-model="stream.slug"
+              label="Slug"
             />
 
             <v-textarea
@@ -201,6 +211,7 @@ export default {
   data () {
     return {
       url: "",
+      slug: "",
       title: "",
       description: "",
       active: false,
@@ -213,33 +224,7 @@ export default {
       deleteIndex: null,
       loading: false,
       snackbar: false,
-      message: null/* ,
-      mocks: [
-        {
-          url: "test1.example.com",
-          title: "test session1",
-          description: "this is \n test description1",
-          active: false
-        },
-        {
-          url: "test2.example.com",
-          title: "test session2",
-          description: "this is \n test description2",
-          active: false
-        },
-        {
-          url: "test3.example.com",
-          title: "test session3",
-          description: "this is \n test description3",
-          active: false
-        },
-        {
-          url: "test3.example.com",
-          title: "test session3",
-          description: "this is \n test description3",
-          active: false
-        }
-      ] */
+      message: null
     }
   },
   mounted: function () {
@@ -251,6 +236,7 @@ export default {
       this.loading = true
       const stream = {
         url: this.url,
+        slug: this.slug,
         title: this.title,
         description: this.description,
         active: this.active
@@ -274,6 +260,7 @@ export default {
       const stream = {
         id: this.streams[index].id,
         url: this.streams[index].url,
+        slug: this.streams[index].slug,
         title: this.streams[index].title,
         description: this.streams[index].description,
         active: this.streams[index].active

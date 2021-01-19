@@ -6,6 +6,7 @@ export const getStream = /* GraphQL */ `
     getStream(id: $id) {
       id
       url
+      slug
       title
       description
       active
@@ -24,6 +25,7 @@ export const listStreams = /* GraphQL */ `
       items {
         id
         url
+        slug
         title
         description
         active

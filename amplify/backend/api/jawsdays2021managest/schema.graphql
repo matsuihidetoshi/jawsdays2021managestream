@@ -1,6 +1,7 @@
 type Stream @model @auth(rules: [{ allow: private }]) {
   id: ID!
   url: String
+  slug: String
   title: String
   description: String
   active: Boolean

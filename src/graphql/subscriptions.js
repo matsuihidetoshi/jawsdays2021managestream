@@ -6,6 +6,7 @@ export const onCreateStream = /* GraphQL */ `
     onCreateStream {
       id
       url
+      slug
       title
       description
       active
@@ -19,6 +20,7 @@ export const onUpdateStream = /* GraphQL */ `
     onUpdateStream {
       id
       url
+      slug
       title
       description
       active
@@ -32,6 +34,7 @@ export const onDeleteStream = /* GraphQL */ `
     onDeleteStream {
       id
       url
+      slug
       title
       description
       active
