@@ -1,11 +1,13 @@
 <template>
   <div class="stream">
+    <!--
     <v-btn
       color="success"
       @click="newStreamForm = true"
     >
       new stream
     </v-btn>
+    -->
 
     <v-dialog
       v-model="newStreamForm"
@@ -90,6 +92,7 @@
               label="Title"
             />
 
+            <!--
             <v-text-field
               v-model="stream.url"
               label="Endpoint URL"
@@ -99,20 +102,24 @@
               v-model="stream.slug"
               label="Slug"
             />
+            -->
 
             <v-textarea
               v-model="stream.description"
               label="Description"
             />
 
+            <!--
             <v-checkbox
               v-model="stream.active"
               label="Active"
             />
+            -->
 
             <v-row>
               <v-spacer />
 
+              <!--
               <v-btn
                 color="error"
                 @click="deleteConfirmation = true, deleteIndex = index"
@@ -120,6 +127,7 @@
               >
                 delete
               </v-btn>
+              -->
 
               <v-dialog
                 v-model="deleteConfirmation"
