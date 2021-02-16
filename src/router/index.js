@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Stream from '@/views/Stream.vue'
+import Streams from '@/views/Streams.vue'
+import StreamDetail from '@/views/StreamDetail.vue'
 import SignIn from '@/views/SignIn.vue'
 
 import store from '@/store/index.js'
@@ -13,12 +14,6 @@ Vue.use(VueRouter)
 Vue.use(AmplifyPlugin, AmplifyModules)
 
 let user
-
-getUser().then((user) => {
-  if (user) {
-    router.push({path: '/'})
-  }
-})
 
 function getUser() {
   return Vue.prototype.$Amplify.Auth.currentAuthenticatedUser().then((data) => {
@@ -46,8 +41,14 @@ AmplifyEventBus.$on('authState', async (state) => {
 const routes = [
   {
     path: '/',
-    name: 'stream',
-    component: Stream,
+    name: 'streams',
+    component: Streams,
+    meta: { requireAuth: true }
+  },
+  {
+    path: '/streams/:id',
+    name: 'stream_detail',
+    component: StreamDetail,
     meta: { requireAuth: true }
   },
   {
