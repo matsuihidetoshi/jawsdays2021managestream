@@ -78,7 +78,7 @@
         v-for="(stream, index) in streams"
         :key="index"
         cols="12"
-        md="6"
+        :md="index === 0 ? 12 : 6"
       >
         <v-card
           class="
@@ -86,91 +86,87 @@
             breakline
           "
         >
-          <v-form>
-            <v-text-field
-              v-model="stream.title"
-              label="Title"
-            />
+          <v-card-title
+            v-text="stream.title"
+          />
+
+          <!--
+          <v-text-field
+            v-model="stream.url"
+            label="Endpoint URL"
+          />
+
+          <v-text-field
+            v-model="stream.slug"
+            label="Slug"
+          />
+          -->
+
+          <v-card-text
+            v-text="stream.description"
+          />
+
+          <!--
+          <v-checkbox
+            v-model="stream.active"
+            label="Active"
+          />
+          -->
+
+          <v-row>
+            <v-spacer />
 
             <!--
-            <v-text-field
-              v-model="stream.url"
-              label="Endpoint URL"
-            />
-
-            <v-text-field
-              v-model="stream.slug"
-              label="Slug"
-            />
+            <v-btn
+              color="error"
+              @click="deleteConfirmation = true, deleteIndex = index"
+              class="mr-2"
+            >
+              delete
+            </v-btn>
             -->
 
-            <v-textarea
-              v-model="stream.description"
-              label="Description"
-            />
+            <v-dialog
+              v-model="deleteConfirmation"
+            >
+              <v-card>
+                <v-card-title>
+                  Confirmation: Delete
+                </v-card-title>
 
-            <!--
-            <v-checkbox
-              v-model="stream.active"
-              label="Active"
-            />
-            -->
+                <v-card-text>
+                  Are you sure?
+                </v-card-text>
 
-            <v-row>
-              <v-spacer />
+                <v-divider></v-divider>
 
-              <!--
-              <v-btn
-                color="error"
-                @click="deleteConfirmation = true, deleteIndex = index"
-                class="mr-2"
-              >
-                delete
-              </v-btn>
-              -->
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="warning"
+                    @click="deleteConfirmation = false"
+                  >
+                    cancel
+                  </v-btn>
 
-              <v-dialog
-                v-model="deleteConfirmation"
-              >
-                <v-card>
-                  <v-card-title>
-                    Confirmation: Delete
-                  </v-card-title>
+                  <v-btn
+                    color="error"
+                    @click="deleteConfirmation = false, deleteStream(deleteIndex)"
+                  >
+                    delete
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
-                  <v-card-text>
-                    Are you sure?
-                  </v-card-text>
-
-                  <v-divider></v-divider>
-
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      color="warning"
-                      @click="deleteConfirmation = false"
-                    >
-                      cancel
-                    </v-btn>
-
-                    <v-btn
-                      color="error"
-                      @click="deleteConfirmation = false, deleteStream(deleteIndex)"
-                    >
-                      delete
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-
-              <v-btn
-                color="primary"
-                @click="updateStream(index)"
-                class="mr-2"
-              >
-                update
-              </v-btn>
-            </v-row>
-          </v-form>
+            <v-btn
+              color="primary"
+              :to="'/streams/' + stream.id"
+              class="mr-2"
+            >
+              edit
+            </v-btn>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
