@@ -76,7 +76,7 @@ export default {
     links: [
       {
         to: '/',
-        text: 'Stream'
+        text: 'Streams'
       },
       {
         to: '/signin',
