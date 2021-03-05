@@ -13,6 +13,7 @@ export const createStream = /* GraphQL */ `
       title
       description
       active
+      metadataId
       createdAt
       updatedAt
     }
@@ -30,6 +31,7 @@ export const updateStream = /* GraphQL */ `
       title
       description
       active
+      metadataId
       createdAt
       updatedAt
     }
@@ -47,6 +49,7 @@ export const deleteStream = /* GraphQL */ `
       title
       description
       active
+      metadataId
       createdAt
       updatedAt
     }

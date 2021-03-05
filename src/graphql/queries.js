@@ -10,6 +10,7 @@ export const getStream = /* GraphQL */ `
       title
       description
       active
+      metadataId
       createdAt
       updatedAt
     }
@@ -29,6 +30,7 @@ export const listStreams = /* GraphQL */ `
         title
         description
         active
+        metadataId
         createdAt
         updatedAt
       }

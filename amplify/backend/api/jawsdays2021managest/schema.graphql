@@ -5,4 +5,5 @@ type Stream @model @auth(rules: [{ allow: private }]) {
   title: String
   description: String
   active: Boolean
+  metadataId: String
 }
