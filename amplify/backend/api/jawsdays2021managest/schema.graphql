@@ -6,4 +6,5 @@ type Stream @model @auth(rules: [{ allow: private }]) {
   description: String
   active: Boolean
   metadataId: String
+  state: Int
 }
