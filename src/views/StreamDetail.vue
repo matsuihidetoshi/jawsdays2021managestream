@@ -28,7 +28,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              v-if="stream && (!stream.state || stream.state === 0 )"
+              v-if="stream && (!stream.state || stream.state === 0)"
               color="primary"
               @click="pushMetadataId(1)"
             >
@@ -139,6 +139,7 @@ export default {
   mounted () {
     this.loading = true
     this.singleStream().finally(() => {
+      console.log(this.stream)
       this.arn = this.convertUrlToArn(this.stream.url)
       this.setChannelId(this.stream.url)
       this.setRegion(this.stream.url)
@@ -203,7 +204,8 @@ export default {
       }
       const stream = {
         id: this.stream.id,
-        metadataId: metadataId
+        metadataId: metadataId,
+        state: state
       }
       try {
         await API.graphql(
