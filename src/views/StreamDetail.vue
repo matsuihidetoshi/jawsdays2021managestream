@@ -228,13 +228,20 @@ export default {
           baseURL: 'https://6aqv2bajue.execute-api.ap-northeast-1.amazonaws.com'
         })
         client.defaults.headers.common['Content-Type'] = 'application/json'
+        client.defaults.headers.common['Authorization'] = this.$store.state.user.signInUserSession.idToken.jwtToken
         await client.post('/default/jawsdays2021putIvsTimedMetadata', {
           channelArn: this.arn,
           metadata: states[state] + ':' + metadataId,
           region: this.region
         })
         this.loading = false
-        this.message = 'Started question'
+        if (state === 1) {
+          this.message = 'Started question'
+        } else if (state === 2) {
+          this.message = 'Displayed result'
+        } else {
+          this.message = 'Finished question'
+        }
         this.snackbar = true
       } catch (error) {
         this.loading = false
